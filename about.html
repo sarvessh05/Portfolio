@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Sarvesh Ghotekar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+        
+        :root {
+            --accent-color: #E67E22;
+            --bg-right: #F9F5F0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            color: #111;
+        }
+        
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px);
+            color: var(--accent-color);
+        }
+        
+        .profile-photo {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.5s ease;
+            filter: grayscale(0.3);
+        }
+        
+        .profile-photo:hover {
+            transform: rotate(5deg);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+            filter: grayscale(0);
+            border-color: var(--accent-color);
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .slide-in-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .staggered-fade-in {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .timeline-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            z-index: 1;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 16px;
+            width: 2px;
+            height: 0;
+            background-color: #ddd;
+            transition: height 1s ease;
+        }
+        
+        .timeline-item.active::after {
+            height: calc(100% + 24px);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .skill-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: #e9e9e9;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .skill-bar {
+            height: 100%;
+            width: 0;
+            background-color: var(--accent-color);
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+        
+        .skill-category {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .skill-category.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .personality-pill {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .personality-pill:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .split-layout {
+                flex-direction: column;
+            }
+            
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            
+            .timeline-item {
+                padding-left: 25px;
+            }
+            
+            .timeline-item::before {
+                width: 12px;
+                height: 12px;
+            }
+            
+            .timeline-item::after {
+                left: 5px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                overflow-x: auto;
+                display: flex;
+                padding-bottom: 15px;
+            }
+            
+            .stat-card {
+                min-width: 200px;
+                margin-right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="split-layout flex min-h-screen">
+        <!-- Left Panel (40%) -->
+        <div class="left-panel w-2/5 bg-white p-10 flex flex-col" style="z-index: 10;">
+            <!-- Bio Section -->
+            <div class="mb-10 slide-in-right">
+                <h1 class="text-4xl font-bold mb-6">About Me</h1>
+                <div class="flex items-center mb-8">
+                    <div class="profile-photo w-32 h-32 rounded-full overflow-hidden shadow-lg border-4 border-white mr-6">
+                        <img src="assets/about.jpg" alt="Sarvesh" class="w-full h-full object-cover" />
+                            <path d="M12 14.25c3.73 0 6.75-3.02 6.75-6.75S15.73.75 12 .75 5.25 3.77 5.25 7.5 8.27 14.25 12 14.25zm0-12c2.9 0 5.25 2.35 5.25 5.25S14.9 12.75 12 12.75 6.75 10.4 6.75 7.5 9.1 2.25 12 2.25zM12 16.5c-5.52 0-10 4.48-10 10 0 .41.34.75.75.75s.75-.34.75-.75c0-4.69 3.81-8.5 8.5-8.5s8.5 3.81 8.5 8.5c0 .41.34.75.75.75s.75-.34.75-.75c0-5.52-4.48-10-10-10z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold mb-1">Hello, I'm Sarvesh 👋</h2>
+                        <p class="text-gray-600">Computer Engineering Student</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 leading-relaxed mb-6">
+                    A Computer Engineering student who finds clarity in code and creativity in structure. I enjoy building things with purpose — from clean UIs to deep logic systems.
+                </p>
+                <p class="text-gray-700 leading-relaxed">
+                    I believe good work should speak softly but confidently, just like a well-written function.
+                </p>
+            </div>
+            
+            <!-- Quick Stats Cards -->
+            <div class="mb-10">
+                <h3 class="text-xl font-semibold mb-4 fade-in">Quick Facts</h3>
+                <div class="stats-grid grid grid-cols-2 gap-4">
+                    <div class="stat-card bg-white rounded-lg shadow p-4 flex items-center fade-in" style="transition-delay: 0.1s;">
+                        <span class="text-2xl mr-3">🕒</span>
+                        <span class="text-sm">Wakes up at 5:00 AM daily</span>
+                    </div>
+                    <div class="stat-card bg-white rounded-lg shadow p-4 flex items-center fade-in" style="transition-delay: 0.2s;">
+                        <span class="text-2xl mr-3">🎓</span>
+                        <span class="text-sm">SE, Computer Engineering</span>
+                    </div>
+                    <div class="stat-card bg-white rounded-lg shadow p-4 flex items-center fade-in" style="transition-delay: 0.3s;">
+                        <span class="text-2xl mr-3">🧪</span>
+                        <span class="text-sm">Paper presented in 2024</span>
+                    </div>
+                    <div class="stat-card bg-white rounded-lg shadow p-4 flex items-center fade-in" style="transition-delay: 0.4s;">
+                        <span class="text-2xl mr-3">🎯</span>
+                        <span class="text-sm">Aiming GATE 2026 (trial), 2027 (final)</span>
+                    </div>
+                    <div class="stat-card bg-white rounded-lg shadow p-4 flex items-center fade-in" style="transition-delay: 0.5s;">
+                        <span class="text-2xl mr-3">💼</span>
+                        <span class="text-sm">Co-lead, Technical Dept @ E-Cell</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Personality Pills -->
+            <div class="mb-10">
+                <h3 class="text-xl font-semibold mb-4 fade-in">Personality Traits</h3>
+                <div class="flex flex-wrap gap-3">
+                    <span class="personality-pill bg-white px-4 py-2 rounded-full shadow-sm border border-gray-200 inline-flex items-center">
+                        <span class="mr-1">🧠</span> Problem Solver
+                    </span>
+                    <span class="personality-pill bg-white px-4 py-2 rounded-full shadow-sm border border-gray-200 inline-flex items-center">
+                        <span class="mr-1">🎯</span> Focused
+                    </span>
+                    <span class="personality-pill bg-white px-4 py-2 rounded-full shadow-sm border border-gray-200 inline-flex items-center">
+                        <span class="mr-1">🧩</span> Curious
+                    </span>
+                    <span class="personality-pill bg-white px-4 py-2 rounded-full shadow-sm border border-gray-200 inline-flex items-center">
+                        <span class="mr-1">🧘</span> Calm Thinker
+                    </span>
+                    <span class="personality-pill bg-white px-4 py-2 rounded-full shadow-sm border border-gray-200 inline-flex items-center">
+                        <span class="mr-1">👨‍🏫</span> Keen Learner
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Navigation Links -->
+            <div class="mt-auto">
+                <nav>
+                    <ul class="flex space-x-6">
+                        <li>
+                            <a href="index.html" class="nav-link text-gray-600 hover:text-gray-900">Home</a>
+                        </li>
+                        <li>
+                            <a href="about.html" class="nav-link text-gray-900 font-medium">About</a>
+                        </li>
+                        <li>
+                            <a href="project.html" class="nav-link text-gray-600 hover:text-gray-900">Projects</a>
+                        </li>
+                        <li>
+                            <a href="contact.html" class="nav-link text-gray-600 hover:text-gray-900">Contact</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        
+        <!-- Right Panel (60%) -->
+        <div class="right-panel w-3/5 p-10 overflow-y-auto" style="background-color: var(--bg-right);">
+            <!-- Timeline Section -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold mb-8 fade-in">My Journey</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="mb-2">
+                            <span class="text-sm font-medium text-gray-500">2023–Present</span>
+                            <h3 class="text-xl font-semibold">Co-Lead, Technical Dept – E-Cell</h3>
+                        </div>
+                        <ul class="list-disc ml-5 text-gray-700">
+                            <li>Built internal tools</li>
+                            <li>Hosted and designed hackathons</li>
+                            <li>Helped manage tech teams discreetly</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="mb-2">
+                            <span class="text-sm font-medium text-gray-500">2024</span>
+                            <h3 class="text-xl font-semibold">Presented Review Paper at National Conference</h3>
+                        </div>
+                        <ul class="list-disc ml-5 text-gray-700">
+                            <li>"Impact of AI on Job Market"</li>
+                            <li>Focused on Healthcare, Manufacturing & Education sectors</li>
+                            <li>Represented SEs among mostly BE presenters</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="mb-2">
+                            <span class="text-sm font-medium text-gray-500">2023–Present</span>
+                            <h3 class="text-xl font-semibold">Pursuing Computer Engineering – XYZ College</h3>
+                        </div>
+                        <ul class="list-disc ml-5 text-gray-700">
+                            <li>Learned core concepts like DSA, TOC</li>
+                            <li>Worked on Travel Planner using Dijkstra's Algorithm</li>
+                            <li>Maintains a perfectionist approach in code structure</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="mb-2">
+                            <span class="text-sm font-medium text-gray-500">2010+</span>
+                            <h3 class="text-xl font-semibold">Started Exploring Computers</h3>
+                        </div>
+                        <ul class="list-disc ml-5 text-gray-700">
+                            <li>From play group to today — built a relationship with systems, logic & games</li>
+                            <li>Developed early interest in problem-solving through games</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Skills Section -->
+            <div>
+                <h2 class="text-3xl font-bold mb-8 fade-in">Skills</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Programming Skills -->
+                    <div class="skill-category">
+                        <h3 class="text-xl font-semibold mb-4">
+                            <span class="mr-2">🖥️</span>Programming
+                        </h3>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>C++</span>
+                                <span class="text-xs text-gray-500">Advanced</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="70%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Python</span>
+                                <span class="text-xs text-gray-500">Proficient</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="75%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>JavaScript</span>
+                                <span class="text-xs text-gray-500">Intermediate</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Web Development Skills -->
+                    <div class="skill-category" style="transition-delay: 0.2s;">
+                        <h3 class="text-xl font-semibold mb-4">
+                            <span class="mr-2">🌐</span>Web Development
+                        </h3>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>HTML/CSS</span>
+                                <span class="text-xs text-gray-500">Advanced</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="75%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Tailwind</span>
+                                <span class="text-xs text-gray-500">Proficient</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="70%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>React (Basic)</span>
+                                <span class="text-xs text-gray-500">Beginner</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="50%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tools Skills -->
+                    <div class="skill-category" style="transition-delay: 0.4s;">
+                        <h3 class="text-xl font-semibold mb-4">
+                            <span class="mr-2">🧰</span>Tools
+                        </h3>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Git</span>
+                                <span class="text-xs text-gray-500">Intermediate</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="50%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Firebase</span>
+                                <span class="text-xs text-gray-500">Basic</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="40%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Testing Tools</span>
+                                <span class="text-xs text-gray-500">Learning</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="20%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Soft Skills -->
+                    <div class="skill-category" style="transition-delay: 0.6s;">
+                        <h3 class="text-xl font-semibold mb-4">
+                            <span class="mr-2">🤝</span>Soft Skills
+                        </h3>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Team Collaboration</span>
+                                <span class="text-xs text-gray-500">Strong</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="80%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Problem Solving</span>
+                                <span class="text-xs text-gray-500">Advanced</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Communication</span>
+                                <span class="text-xs text-gray-500">Proficient</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-width="75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Intersection Observer for animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        // Observer for fade-in elements
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in, .slide-in-right, .skill-category, .timeline-item').forEach(el => {
+            fadeObserver.observe(el);
+        });
+        
+        // Animate skill bars when they come into view
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bars = entry.target.querySelectorAll('.skill-bar');
+                    bars.forEach(bar => {
+                        setTimeout(() => {
+                            bar.style.width = bar.dataset.width;
+                        }, 200);
+                    });
+                    skillObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // Observe skill categories
+        document.querySelectorAll('.skill-category').forEach(el => {
+            skillObserver.observe(el);
+        });
+        
+        // Animate personality pills with staggered delay
+        const pills = document.querySelectorAll('.personality-pill');
+        pills.forEach((pill, index) => {
+            setTimeout(() => {
+                pill.style.opacity = '1';
+                pill.style.transform = 'translateY(0)';
+            }, 100 + (index * 150));
+        });
+        
+        // Trigger animations on load for elements above the fold
+        window.addEventListener('load', () => {
+            // Check which elements are already in viewport and animate them
+            document.querySelectorAll('.fade-in, .slide-in-right, .skill-category, .timeline-item').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    el.classList.add('active');
+                }
+            });
+            
+            // Animate skill bars that are in viewport
+            document.querySelectorAll('.skill-category').forEach(category => {
+                const rect = category.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    const bars = category.querySelectorAll('.skill-bar');
+                    bars.forEach(bar => {
+                        setTimeout(() => {
+                            bar.style.width = bar.dataset.width;
+                        }, 500);
+                    });
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9524722024d2cbb5',t:'MTc1MDM1MDk5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
