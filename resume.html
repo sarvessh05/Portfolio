@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume | Sarvesh Ghotekar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#f9f5f0',
+                        burntOrange: '#D35400',
+                        darkOrange: '#A04000',
+                        dark: '#2C3E50',
+                        light: '#f9f5f0',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #2C3E50;
+        }
+        
+        /* Code background effect */
+        .code-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .code-line {
+            position: absolute;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            color: #D35400;
+            white-space: nowrap;
+            opacity: 0.7;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .slide-up {
+            opacity: 0;
+            animation: slideUp 0.8s ease forwards;
+        }
+        
+        .slide-in {
+            opacity: 0;
+            animation: slideIn 0.8s ease forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        
+        /* Section heading style */
+        .section-heading {
+            font-family: 'Fira Code', monospace;
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-heading::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0.75rem;
+            height: 1.5rem;
+            background-color: #D35400;
+            border-radius: 2px;
+        }
+        
+        /* Skill bars */
+        .skill-bar {
+            height: 8px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background-color: #D35400;
+            border-radius: 4px;
+            width: 0;
+            transition: width 1s ease;
+        }
+        
+        /* Badge styles */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            background-color: #FBEEE6;
+            color: #A04000;
+        }
+        
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        /* Loading animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .typing-dots::after {
+            content: '';
+            animation: typing 1.5s infinite;
+        }
+        
+        @keyframes typing {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+            100% { content: ''; }
+        }
+        
+        /* Project card hover effect */
+        .project-card {
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Certificate card hover effect */
+        .certificate-card {
+            transition: all 0.3s ease;
+        }
+        
+        .certificate-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="text-xl font-mono text-burntOrange">
+            <span>Loading resume</span>
+            <span class="typing-dots"></span>
+        </div>
+    </div>
+
+    <!-- Code Background -->
+    <div class="code-bg" id="code-bg"></div>
+
+    <!-- Main Layout -->
+    <div class="min-h-screen flex flex-col md:flex-row">
+        <!-- Left Panel (40%) -->
+        <div class="w-full md:w-[40%] bg-cream text-dark p-8 flex flex-col justify-between relative md:sticky md:top-0 md:h-screen">
+            <!-- Mobile Menu Button -->
+            <button id="menu-toggle" class="md:hidden absolute top-8 right-8 text-dark z-20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="mobile-menu md:hidden fixed top-0 left-0 w-full h-full bg-cream z-10 p-8 pt-20">
+                <div class="flex flex-col space-y-6">
+                    <a href="index.html" class="text-lg hover:text-burntOrange transition-colors">Home</a>
+                    <a href="about.html" class="text-lg hover:text-burntOrange transition-colors">About</a>
+                    <a href="projects.html" class="text-lg hover:text-burntOrange transition-colors">Projects</a>
+                    <a href="contact.html" class="text-lg hover:text-burntOrange transition-colors">Contact</a>
+                    <a href="blog.html" class="text-lg hover:text-burntOrange transition-colors">Blog</a>
+                    <a href="resume.html" class="text-lg text-burntOrange font-medium">Resume</a>
+                </div>
+                
+                <div class="mt-12">
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-600 hover:text-burntOrange transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-burntOrange transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
+                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-burntOrange transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-burntOrange transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Desktop Content -->
+            <div class="hidden md:block">
+                <div class="mb-12">
+                    <h1 class="text-2xl font-bold mb-1">Sarvesh Ghotekar</h1>
+                    <p class="text-gray-600">Code. Craft. Curiosity.</p>
+                </div>
+                
+                <nav class="mb-12">
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="index.html" class="nav-link text-gray-600 hover:text-gray-900">Home</a>
+                        </li>
+                        <li>
+                            <a href="about.html" class="nav-link text-gray-900 font-medium">About</a>
+                        </li>
+                        <li>
+                            <a href="project.html" class="nav-link text-gray-600 hover:text-gray-900">Projects</a>
+                        </li>
+                        <li>
+                            <a href="contact.html" class="nav-link text-gray-600 hover:text-gray-900">Contact</a>
+                        </li>
+                        <li>
+                            <a href="resume.html" class="nav-link text-gray-600 hover:text-gray-900"> Resume</a>
+                        </li>
+                        <li>
+                            <a href="certificates.html" class="nav-link text-gray-600 hover:text-gray-900">Certificates</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <!-- Download Resume Button (Always Visible) -->
+            <div class="mt-8 md:mt-0">
+                <a href="/assets/resume.pdf" download class="inline-flex items-center justify-center w-full px-6 py-3 bg-burntOrange text-white rounded-md hover:bg-darkOrange transition-colors shadow-md hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Download Resume (PDF)
+                </a>
+                
+                <div class="hidden md:flex mt-8 space-x-4 justify-center">
+                    <a href="#" class="text-gray-600 hover:text-burntOrange transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-burntOrange transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                            <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-burntOrange transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel (60%) -->
+        <div class="w-full md:w-[60%] bg-white p-8 md:p-12 overflow-y-auto">
+            <!-- Technical Skills Section -->
+            <section class="mb-12 pb-8 border-b border-gray-200 animate-section">
+                <h2 class="section-heading text-2xl font-bold flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Technical Skills
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Frontend Skills -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-3 text-burntOrange">Frontend</h3>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>HTML5</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>CSS3</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>JavaScript</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Tailwind CSS</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Bootstrap</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Backend & Other Skills -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-3 text-burntOrange">Backend & Tools</h3>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Python</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Django</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Node.js</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="65%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Git & GitHub</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>SQL</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CS Subjects -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-medium mb-3 text-burntOrange">CS Subjects</h3>
+                    <div class="flex flex-wrap">
+                        <span class="badge">Data Structures & Algorithms</span>
+                        <span class="badge">Object-Oriented Programming</span>
+                        <span class="badge">Theory of Computation (in progress)</span>
+                        <span class="badge">Database Management Systems</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Education Section -->
+            <section class="mb-12 pb-8 border-b border-gray-200 animate-section">
+                <h2 class="section-heading text-2xl font-bold flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                    </svg>
+                    Education
+                </h2>
+                
+                <div class="bg-cream rounded-lg p-6 shadow-sm">
+                    <h3 class="text-xl font-bold">Bachelor of Engineering in Computer Engineering</h3>
+                    <p class="text-gray-600 mb-2">Savitribai Phule Pune University (2023 – 2027)</p>
+                    <p class="text-gray-700">CGPA: 8.75</p>
+                </div>
+            </section>
+            
+            <!-- Projects Section -->
+            <section class="mb-12 pb-8 border-b border-gray-200 animate-section">
+                <h2 class="section-heading text-2xl font-bold flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                    Projects
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Project 1 -->
+                    <div class="project-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Library Management System</h3>
+                            <div class="flex flex-wrap mb-3">
+                                <span class="badge">Django</span>
+                                <span class="badge">SQLite3</span>
+                                <span class="badge">Bootstrap</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">A full-stack system for managing books, users, and admin actions.</p>
+                            <div class="flex space-x-3">
+                                <a href="#" class="inline-flex items-center text-burntOrange font-medium hover:underline">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                    </svg>
+                                    GitHub
+                                </a>
+                                <a href="#" class="inline-flex items-center text-burntOrange font-medium hover:underline">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    Live Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 2 -->
+                    <div class="project-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Weather Dashboard</h3>
+                            <div class="flex flex-wrap mb-3">
+                                <span class="badge">JavaScript</span>
+                                <span class="badge">API</span>
+                                <span class="badge">Tailwind CSS</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Real-time weather app with forecast, location search, and interactive maps.</p>
+                            <div class="flex space-x-3">
+                                <a href="#" class="inline-flex items-center text-burntOrange font-medium hover:underline">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                    </svg>
+                                    GitHub
+                                </a>
+                                <a href="#" class="inline-flex items-center text-burntOrange font-medium hover:underline">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    Live Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 3 -->
+                    <div class="project-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Task Management App</h3>
+                            <div class="flex flex-wrap mb-3">
+                                <span class="badge">React</span>
+                                <span class="badge">Firebase</span>
+                                <span class="badge">CSS Modules</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Collaborative task manager with real-time updates and team features.</p>
+                            <div class="flex space-x-3">
+                                <a href="#" class="inline-flex items-center text-burntOrange font-medium hover:underline">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                    </svg>
+                                    GitHub
+                                </a>
+                                <a href="#" class="inline-flex items-center text-burntOrange font-medium hover:underline">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    Live Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Achievements Section -->
+            <section class="mb-12 pb-8 border-b border-gray-200 animate-section">
+                <h2 class="section-heading text-2xl font-bold flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                    </svg>
+                    Achievements
+                </h2>
+                
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-burntOrange mt-0.5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                            <p class="font-medium">Presented a Review Paper on AI's Impact on the Job Market at National Conference, R. H. Sapat College</p>
+                            <p class="text-gray-600 text-sm">May 2023</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-burntOrange mt-0.5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                            <p class="font-medium">Open Source Contributor - 50+ Contributions to Community Projects</p>
+                            <p class="text-gray-600 text-sm">Ongoing</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            
+            <!-- Certifications Section -->
+            <section class="mb-12 pb-8 border-b border-gray-200 animate-section">
+                <h2 class="section-heading text-2xl font-bold flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Certifications
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Certificate 1 -->
+                    <div class="certificate-card bg-white rounded-lg p-4 border border-gray-200">
+                        <h3 class="font-bold">National Conference Certificate</h3>
+                        <p class="text-gray-600 text-sm mb-2">Gokhale Education Society's R. H. Sapat College of Engineering, Management Studies and Research</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-xs">May 2023</span>
+                            <a href="#" class="text-burntOrange text-sm hover:underline">View Certificate</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate 2 -->
+                    <div class="certificate-card bg-white rounded-lg p-4 border border-gray-200">
+                        <h3 class="font-bold">JPMorgan Chase & Co. - Excel Skills Job Simulation</h3>
+                        <p class="text-gray-600 text-sm mb-2">Forage</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-xs">January 2023</span>
+                            <a href="#" class="text-burntOrange text-sm hover:underline">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- View More Button -->
+                <div class="mt-6 text-center">
+                    <a href="certificates.html" class="inline-flex items-center justify-center px-6 py-3 bg-burntOrange text-white rounded-md hover:bg-darkOrange transition-colors shadow-md hover:shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                        View More Certificates
+                    </a>
+                </div>
+            </section>
+            
+            <!-- Languages Section -->
+            <section class="mb-8 animate-section">
+                <h2 class="section-heading text-2xl font-bold flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                    </svg>
+                    Languages
+                </h2>
+                
+                <div class="flex flex-wrap gap-4">
+                    <div class="bg-cream px-4 py-2 rounded-lg">
+                        <span class="font-medium">English</span>
+                        <span class="text-gray-600 text-sm ml-2">(Professional)</span>
+                    </div>
+                    <div class="bg-cream px-4 py-2 rounded-lg">
+                        <span class="font-medium">Hindi</span>
+                        <span class="text-gray-600 text-sm ml-2">(Fluent)</span>
+                    </div>
+                    <div class="bg-cream px-4 py-2 rounded-lg">
+                        <span class="font-medium">Marathi</span>
+                        <span class="text-gray-600 text-sm ml-2">(Native)</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+        
+        // Loading screen
+        const loading = document.getElementById('loading');
+        
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                
+                // Initialize skill bars after loading
+                initSkillBars();
+                
+                // Initialize scroll animations
+                initScrollAnimations();
+            }, 1000);
+        });
+        
+        // Code background effect
+        const codeBg = document.getElementById('code-bg');
+        const codeSnippets = [
+            'const curiosity = () => knowledge++;',
+            'while(alive) { learn(); share(); repeat(); }',
+            'if (problem) { coffee++; solveIt(); }',
+            'function experience(failure) { return lesson; }',
+            'const life = new Promise((resolve, reject) => {',
+            '// TODO: Refactor this later',
+            'import { wisdom } from "experience";',
+            'export default class Developer extends Human {',
+            'git commit -m "Fixed that bug... hopefully"',
+            'setTimeout(inspiration, coffee.isEmpty() ? 0 : 1000);'
+        ];
+        
+        function createCodeLines() {
+            codeBg.innerHTML = '';
+            const lines = 15;
+            
+            for (let i = 0; i < lines; i++) {
+                const line = document.createElement('div');
+                line.className = 'code-line';
+                line.style.top = `${Math.random() * 100}%`;
+                line.style.left = `${Math.random() * 100}%`;
+                line.style.opacity = Math.random() * 0.7 + 0.3;
+                line.style.transform = `rotate(${Math.random() * 6 - 3}deg)`;
+                line.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+                codeBg.appendChild(line);
+            }
+        }
+        
+        createCodeLines();
+        
+        // Initialize skill bars
+        function initSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            skillBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 200);
+            });
+        }
+        
+        // Scroll animations
+        function initScrollAnimations() {
+            const sections = document.querySelectorAll('.animate-section');
+            
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('slide-up');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95389972013fa775',t:'MTc1MDU2MjMxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
