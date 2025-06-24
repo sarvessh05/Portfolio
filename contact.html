@@ -364,7 +364,7 @@
             <div class="form-container bg-white rounded-xl shadow-lg p-8 w-full max-w-xl">
                 <h2 class="text-2xl font-bold mb-6">Send me a message</h2>
                 
-                <form id="contact-form" class="space-y-6">
+                <form id="contact-form" class="space-y-6" action="https://formspree.io/f/xwpbweeg" method="POST">
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
                         <input type="text" id="name" name="name" class="form-input w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none" required>
@@ -456,182 +456,165 @@
     </div>
 
     <script>
-        // Form validation
-        const contactForm = document.getElementById('contact-form');
-        const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const subjectInput = document.getElementById('subject');
-        const messageInput = document.getElementById('message');
-        
-        const nameError = document.getElementById('name-error');
-        const emailError = document.getElementById('email-error');
-        const subjectError = document.getElementById('subject-error');
-        const messageError = document.getElementById('message-error');
-        
-        // Copy email functionality
-        function copyEmail() {
-            const email = 'sarvesh@example.com';
-            navigator.clipboard.writeText(email).then(() => {
-                const tooltip = document.querySelector('.copy-tooltip');
-                tooltip.textContent = 'Copied!';
-                setTimeout(() => {
-                    tooltip.textContent = 'Click to copy';
-                }, 2000);
-            });
-        }
-        
-        // Form submission and animation
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Reset errors
-            resetErrors();
-            
-            // Validate form
-            let isValid = true;
-            
-            if (!nameInput.value.trim()) {
-                showError(nameInput, nameError);
-                isValid = false;
-            }
-            
-            if (!emailInput.value.trim() || !isValidEmail(emailInput.value)) {
-                showError(emailInput, emailError);
-                isValid = false;
-            }
-            
-            if (!subjectInput.value.trim()) {
-                showError(subjectInput, subjectError);
-                isValid = false;
-            }
-            
-            if (!messageInput.value.trim()) {
-                showError(messageInput, messageError);
-                isValid = false;
-            }
-            
-            if (isValid) {
-                // Trigger animation
-                playAnimation();
-            }
+const contactForm = document.getElementById('contact-form');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const subjectInput = document.getElementById('subject');
+const messageInput = document.getElementById('message');
+
+const nameError = document.getElementById('name-error');
+const emailError = document.getElementById('email-error');
+const subjectError = document.getElementById('subject-error');
+const messageError = document.getElementById('message-error');
+
+function showError(input, errorElement) {
+    input.classList.add('error');
+    errorElement.style.display = 'block';
+}
+
+function resetErrors() {
+    const inputs = [nameInput, emailInput, subjectInput, messageInput];
+    const errors = [nameError, emailError, subjectError, messageError];
+
+    inputs.forEach(input => input.classList.remove('error'));
+    errors.forEach(error => error.style.display = 'none');
+}
+
+function isValidEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    resetErrors();
+
+    let isValid = true;
+
+    if (!nameInput.value.trim()) {
+        showError(nameInput, nameError);
+        isValid = false;
+    }
+
+    if (!emailInput.value.trim() || !isValidEmail(emailInput.value)) {
+        showError(emailInput, emailError);
+        isValid = false;
+    }
+
+    if (!subjectInput.value.trim()) {
+        showError(subjectInput, subjectError);
+        isValid = false;
+    }
+
+    if (!messageInput.value.trim()) {
+        showError(messageInput, messageError);
+        isValid = false;
+    }
+
+    if (!isValid) return;
+
+    const formData = new FormData(contactForm);
+
+    try {
+        const response = await fetch(contactForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
         });
-        
-        function showError(input, errorElement) {
-            input.classList.add('error');
-            errorElement.style.display = 'block';
+
+        if (response.ok) {
+            playAnimation(); // ✅ Animation only plays if message sent
+        } else {
+            alert("❌ Message failed to send. Please try again.");
         }
-        
-        function resetErrors() {
-            const inputs = [nameInput, emailInput, subjectInput, messageInput];
-            const errors = [nameError, emailError, subjectError, messageError];
-            
-            inputs.forEach(input => input.classList.remove('error'));
-            errors.forEach(error => error.style.display = 'none');
-        }
-        
-        function isValidEmail(email) {
-            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(String(email).toLowerCase());
-        }
-        
-        // Enhanced animation sequence
-        function playAnimation() {
-            const overlay = document.getElementById('animation-overlay');
-            const envelope = document.getElementById('envelope');
-            const mailVan = document.getElementById('mail-van');
-            const successMessage = document.getElementById('success-message');
-            
-            // Show overlay
-            overlay.classList.add('active');
-            
-            // Envelope animation - pop out from center
-            setTimeout(() => {
-                envelope.style.opacity = '1';
-                envelope.style.transform = 'translate(-50%, -50%) scale(1)';
-            }, 500);
-            
-            // Mail van animation - drive in from left
-            setTimeout(() => {
-                mailVan.style.opacity = '1';
-                mailVan.style.left = '30%';
-                mailVan.style.transform = 'translateY(-50%)';
-                mailVan.classList.add('moving'); // Start wheel rotation
-            }, 1500);
-            
-            // Mail van stops to collect envelope
-            setTimeout(() => {
-                mailVan.style.left = '50%';
-                mailVan.style.transform = 'translate(-50%, -50%)';
-            }, 2500);
-            
-            // Envelope gets collected
-            setTimeout(() => {
-                envelope.style.transform = 'translate(-50%, -80%) scale(0.8)';
-                envelope.style.opacity = '0';
-            }, 3000);
-            
-            // Mail van drives away
-            setTimeout(() => {
-                mailVan.style.left = '120%';
-                mailVan.style.transform = 'translateY(-50%)';
-            }, 3500);
-            
-            // Show success message
-            setTimeout(() => {
-                successMessage.classList.add('active');
-            }, 4000);
-            
-            // Reset and hide overlay after animation
-            setTimeout(() => {
-                overlay.classList.remove('active');
-                envelope.style.opacity = '0';
-                envelope.style.transform = 'translate(-50%, -50%) scale(0)';
-                mailVan.style.opacity = '0';
-                mailVan.style.left = '-150px';
-                mailVan.classList.remove('moving'); // Stop wheel rotation
-                successMessage.classList.remove('active');
-                
-                // Reset form
-                contactForm.reset();
-            }, 6500);
-        }
-        
-        // Input validation on blur
-        nameInput.addEventListener('blur', function() {
-            if (!this.value.trim()) {
-                showError(this, nameError);
-            } else {
-                this.classList.remove('error');
-                nameError.style.display = 'none';
-            }
-        });
-        
-        emailInput.addEventListener('blur', function() {
-            if (!this.value.trim() || !isValidEmail(this.value)) {
-                showError(this, emailError);
-            } else {
-                this.classList.remove('error');
-                emailError.style.display = 'none';
-            }
-        });
-        
-        subjectInput.addEventListener('blur', function() {
-            if (!this.value.trim()) {
-                showError(this, subjectError);
-            } else {
-                this.classList.remove('error');
-                subjectError.style.display = 'none';
-            }
-        });
-        
-        messageInput.addEventListener('blur', function() {
-            if (!this.value.trim()) {
-                showError(this, messageError);
-            } else {
-                this.classList.remove('error');
-                messageError.style.display = 'none';
-            }
-        });
-    </script>
+    } catch (error) {
+        console.error(error);
+        alert("❌ Could not send the message. Check your internet connection.");
+    }
+});
+
+// Animation logic
+function playAnimation() {
+    const overlay = document.getElementById('animation-overlay');
+    const envelope = document.getElementById('envelope');
+    const mailVan = document.getElementById('mail-van');
+    const successMessage = document.getElementById('success-message');
+
+    overlay.classList.add('active');
+
+    setTimeout(() => {
+        envelope.style.opacity = '1';
+        envelope.style.transform = 'translate(-50%, -50%) scale(1)';
+    }, 500);
+
+    setTimeout(() => {
+        mailVan.style.opacity = '1';
+        mailVan.style.left = '30%';
+        mailVan.style.transform = 'translateY(-50%)';
+        mailVan.classList.add('moving');
+    }, 1500);
+
+    setTimeout(() => {
+        mailVan.style.left = '50%';
+        mailVan.style.transform = 'translate(-50%, -50%)';
+    }, 2500);
+
+    setTimeout(() => {
+        envelope.style.transform = 'translate(-50%, -80%) scale(0.8)';
+        envelope.style.opacity = '0';
+    }, 3000);
+
+    setTimeout(() => {
+        mailVan.style.left = '120%';
+        mailVan.style.transform = 'translateY(-50%)';
+    }, 3500);
+
+    setTimeout(() => {
+        successMessage.classList.add('active');
+    }, 4000);
+
+    setTimeout(() => {
+        overlay.classList.remove('active');
+        envelope.style.opacity = '0';
+        envelope.style.transform = 'translate(-50%, -50%) scale(0)';
+        mailVan.style.opacity = '0';
+        mailVan.style.left = '-150px';
+        mailVan.classList.remove('moving');
+        successMessage.classList.remove('active');
+        contactForm.reset();
+    }, 6500);
+}
+
+// Email copy tooltip
+function copyEmail() {
+    const email = 'ghotekarsarvesh@gmail.com';
+    navigator.clipboard.writeText(email).then(() => {
+        const tooltip = document.querySelector('.copy-tooltip');
+        tooltip.textContent = 'Copied!';
+        setTimeout(() => {
+            tooltip.textContent = 'Click to copy';
+        }, 2000);
+    });
+}
+
+// Blur validation
+nameInput.addEventListener('blur', () => {
+    if (!nameInput.value.trim()) showError(nameInput, nameError);
+    else { nameInput.classList.remove('error'); nameError.style.display = 'none'; }
+});
+emailInput.addEventListener('blur', () => {
+    if (!emailInput.value.trim() || !isValidEmail(emailInput.value)) showError(emailInput, emailError);
+    else { emailInput.classList.remove('error'); emailError.style.display = 'none'; }
+});
+subjectInput.addEventListener('blur', () => {
+    if (!subjectInput.value.trim()) showError(subjectInput, subjectError);
+    else { subjectInput.classList.remove('error'); subjectError.style.display = 'none'; }
+});
+messageInput.addEventListener('blur', () => {
+    if (!messageInput.value.trim()) showError(messageInput, messageError);
+    else { messageInput.classList.remove('error'); messageError.style.display = 'none'; }
+});
+</script>
+
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9524a97c87e5a794',t:'MTc1MDM1MzI1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
