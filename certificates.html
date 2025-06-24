@@ -195,6 +195,37 @@
             font-size: 14px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
+
+        :root {
+  --accent-color: #f97316; /* Tailwind orange-500 */
+}
+
+.nav-link {
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease;
+  color: #4b5563; /* Tailwind gray-600 */
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent-color);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent-color);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
     </style>
 </head>
 <body>
@@ -271,7 +302,7 @@
                             <a href="index.html" class="nav-link text-gray-600 hover:text-gray-900">Home</a>
                         </li>
                         <li>
-                            <a href="about.html" class="nav-link text-gray-900 font-medium">About</a>
+                            <a href="about.html" class="nav-link text-gray-600 hover:text-gray-900">About</a>
                         </li>
                         <li>
                             <a href="project.html" class="nav-link text-gray-600 hover:text-gray-900">Projects</a>
@@ -280,10 +311,10 @@
                             <a href="contact.html" class="nav-link text-gray-600 hover:text-gray-900">Contact</a>
                         </li>
                         <li>
-                            <a href="resume.html" class="nav-link text-gray-600 hover:text-gray-900"> Resume</a>
+                            <a href="resume.html" class="nav-link text-gray-600 hover:text-gray-900">Resume</a>
                         </li>
                         <li>
-                            <a href="certificates.html" class="nav-link text-gray-600 hover:text-gray-900">Certificates</a>
+                            <a href="certificates.html" class="nav-link text-gray-900 font-medium">Certificates</a>
                         </li>
                     </ul>
                 </nav>
