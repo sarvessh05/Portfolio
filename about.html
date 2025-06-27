@@ -222,9 +222,44 @@
                 margin-right: 15px;
             }
         }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white; /* or your preferred bg */
+            z-index: 50;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .quote-text {
+            text-align: center;
+            color: #d97706; /* text-burntOrange */
+            font-family: monospace;
+            font-size: 1.125rem; /* text-xl */
+        }
+
+        .quote-author {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #4b5563; /* text-gray-600 */
+        }
     </style>
 </head>
 <body>
+    <!-- Loading Screen for About Me -->
+    <div class="loading" id="loading">
+        <div class="quote-text">
+            <span>“Know thyself.”</span>
+            <div class="quote-author">— Socrates</div>
+        </div>
+    </div>
+
+    
     <div class="split-layout flex min-h-screen">
         <!-- Left Panel (40%) -->
         <div class="left-panel w-2/5 bg-white p-10 flex flex-col" style="z-index: 10;">
@@ -540,6 +575,20 @@
     </div>
 
     <script>
+        const loading = document.getElementById('loading');
+        
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                
+                // Initialize skill bars after loading
+                initSkillBars();
+                
+                // Initialize scroll animations
+                initScrollAnimations();
+            }, 2000);
+        });
+        
         // Intersection Observer for animations
         const observerOptions = {
             root: null,
