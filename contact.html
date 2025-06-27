@@ -216,9 +216,11 @@
         
         .wheel {
             transform-origin: center;
+            transform-box: fill-box; /* important: makes 'center' refer to the element's own center */
             animation: rotateWheel 1s linear infinite;
             animation-play-state: paused;
         }
+
         
         .mail-van.moving .wheel {
             animation-play-state: running;
