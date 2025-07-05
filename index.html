@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Sets the character encoding to UTF-8, which supports most languages and symbols -->
     <meta charset="UTF-8">
+
+    <!-- Ensures the layout adjusts properly across all devices (responsice design) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- This title appears on the browser tab -->
     <title>Sarvesh Ghotekar | Code. Craft. Curiosity.</title>
+    
+    <!-- Favicons and web manifest for different devices/platforms -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Includes Tailwind CSS from a CDN: a utility-first CSS framework for rapid UI building -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts -->
@@ -18,172 +27,195 @@
         /* ==== Root Variables ==== */
 
         :root {
-            --accent-color: #E67E22;
-            --bg-right: #F9F5F0;
+            --accent-color: #E67E22;    /* Highlight color used across hover/animations */
+            --bg-right: #F9F5F0;        /* Background color for the right side of the layout */
         }
 
         /* ==== Base Styles ==== */
         
         body {
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;   /* Default font for all text */
+            overflow-x: hidden;                 /* Prevents horizontal scroll */
         }
         
+        /* Monospace font specifically for code blocks or code-like text */
         .code-font {
             font-family: 'Fira Code', monospace;
         }
 
-        /* ==== Navigation Styling ==== */
+        /* ==== Navigation Link Styling ==== */
         
         .nav-link {
-            position: relative;
-            transition: color 0.3s ease;
+            position: relative;             /* Needed for placing the underline using ::after */
+            transition: color 0.3s ease;    /* Smooth color change when hovered */
         }
         
         .nav-link::after {
-            content: '';
+            content: '';                     /* Creates a line visually, not actual text */
             position: absolute;
-            bottom: -2px;
+            bottom: -2px;                    /* Places the underline just below the text */
             left: 0;
-            width: 0;
+            width: 0;                        /* Initially hidden */
             height: 2px;
-            background-color: var(--accent-color);
-            transition: width 0.3s ease;
+            background-color: var(--accent-color); /* Uses the theme orange */
+            transition: width 0.3s ease;     /* Smooth animation for underline growth */
         }
         
         .nav-link:hover {
-            color: var(--accent-color);
+            color: var(--accent-color);     /* Changes text color when hovered */
         }
         
         .nav-link:hover::after {
-            width: 100%;
+            width: 100%;                     /* Fully expands underline on hover */
         }
 
-        /* ==== Interactive Elements ==== */
-        
+        /* === Social Media Icons === */
+
         .social-icon {
-            transition: all 0.3s ease;
+            transition: all 0.3s ease;       /* Smooth hover effect for all properties */
         }
-        
+
         .social-icon:hover {
-            transform: translateY(-3px);
-            color: var(--accent-color);
+            transform: translateY(-3px);     /* Lifts icon slightly upward */
+            color: var(--accent-color);      /* Changes icon color to orange */
         }
-        
+
+        /* === Profile Photo Hover Effect === */
+
         .profile-photo {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth scaling + shadow */
         }
-        
+
         .profile-photo:hover {
-            transform: scale(1.03);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+            transform: scale(1.03);          /* Grows slightly on hover */
+            box-shadow: 0 12px 28px rgba(0,0,0,0.15); /* Soft shadow for 3D depth */
         }
         
+        /* === Typing Cursor Animation === */
+
         .typing-cursor {
             display: inline-block;
             width: 2px;
             height: 1em;
-            background-color: #111;
+            background-color: #111;        /* Dark blinking bar like a terminal */
             margin-left: 2px;
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+            animation: blink 1s infinite;    /* Blinks on and off forever */
         }
 
-        /* ==== Entry Animations ==== */
-        
-        .fade-in {
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeIn 0.8s forwards;
+        @keyframes blink {
+            0%, 100% { opacity: 1; }         /* Visible at start and end */
+            50% { opacity: 0; }              /* Disappears in middle for blinking effect */
         }
-        
+
+        /* === Entry Animations === */
+
+        .fade-in {
+            opacity: 0;                         /* Start fully transparent */
+            transform: translateY(10px);        /* Slightly moved down */
+            animation: fadeIn 0.8s forwards;    /* Fade and slide into position */
+        }
+
         .slide-in-right {
             opacity: 0;
-            transform: translateX(-20px);
+            transform: translateX(-20px);       /* Slightly moved left */
             animation: slideInRight 0.8s forwards;
         }
-        
+
         .pop-in {
             opacity: 0;
-            transform: scale(0.9);
-            animation: popIn 0.8s forwards;
-        }
-        
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slideInRight {
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        @keyframes popIn {
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        .floating-code {
-            position: absolute;
-            opacity: 0.05;
-            z-index: 0;
-            font-family: 'Fira Code', monospace;
-            color: #333;
-            user-select: none;
-            pointer-events: none;
-            animation: float 15s infinite ease-in-out;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(1deg); }
+            transform: scale(0.9);              /* Start slightly smaller */
+            animation: popIn 0.8s forwards;     /* Grows to full size with pop effect */
         }
 
-        /* ==== Responsive Nav + Terminal Width ==== */
-        
-        .hamburger {
-            display: none;
+        /* === Keyframes for above animations === */
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes popIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* === Floating Code Background === */
+
+        .floating-code {
+            position: absolute;
+            opacity: 0.05;                      /* Extremely faint, just for design */
+            z-index: 0;                         /* Behind everything else */
+            font-family: 'Fira Code', monospace;
+            color: #333;
+            user-select: none;                  /* Can't select or copy this text */
+            pointer-events: none;               /* Mouse won't interact with it */
+            animation: float 15s infinite ease-in-out;  /* Smooth floating animation */
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(1deg); /* Slight float and spin */
+            }
+        }
+
+        /* === Responsive Layout Adjustments (for mobile screens) === */
+
+        .hamburger {
+            display: none; /* Hidden on desktop */
+        }
+
         .terminal-container {
             width: 100%;
-            max-width: 480px; /* Increased from 'md' (448px) */
-            word-wrap: break-word;
+            max-width: 480px;      /* Limits terminal box width */
+            word-wrap: break-word; /* Ensures long text wraps instead of overflowing */
         }
-        
+
         #typing-text {
-            padding-right: 10px; /* Add some padding to ensure cursor fits */
+            padding-right: 10px;   /* Space for the blinking cursor */
         }
-        
+
+        /* === Mobile View Styling (below 768px width) === */
         @media (max-width: 768px) {
             .split-layout {
-                flex-direction: column;
+                flex-direction: column; /* Stack left and right panels vertically */
             }
-            
+
             .left-panel, .right-panel {
-                width: 100%;
+                width: 100%;            /* Full width for both panels */
             }
-            
+
             .left-panel {
-                padding: 2rem 1.5rem;
+                padding: 2rem 1.5rem;   /* Adjust side paddings for mobile */
             }
-            
+
             .right-panel {
                 padding: 3rem 1.5rem;
             }
-            
+
             .main-heading {
-                font-size: 2.5rem;
+                font-size: 2.5rem;      /* Smaller heading size for mobile */
             }
-            
+
             .nav-menu {
-                display: none;
+                display: none;          /* Hidden by default on mobile */
             }
-            
+
             .nav-menu.active {
-                display: flex;
+                display: flex;                /* Show on click */
                 flex-direction: column;
                 position: absolute;
                 top: 80px;
@@ -191,16 +223,16 @@
                 width: 100%;
                 background-color: white;
                 padding: 1rem;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Drop shadow for floating effect */
                 z-index: 50;
             }
-            
+
             .hamburger {
-                display: block;
+                display: block;         /* Show hamburger on mobile */
             }
-            
+
             .terminal-container {
-                max-width: 90%;
+                max-width: 90%;         /* More flexible on small screens */
             }
         }
     </style>
