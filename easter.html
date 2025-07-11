@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarvesh Ghotekar | Code. Craft. Curiosity.</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#000000">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+        
+        /* ==== Root Variables ==== */
+
+        :root {
+            --accent-color: #E67E22;
+            --bg-right: #F9F5F0;
+        }
+
+        /* ==== Base Styles ==== */
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* ==== Navigation Styling ==== */
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ==== Interactive Elements ==== */
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px);
+            color: var(--accent-color);
+        }
+        
+        .profile-photo {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .profile-photo:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+        }
+        
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background-color: #111;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ==== Entry Animations ==== */
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.8s forwards;
+        }
+        
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: slideInRight 0.8s forwards;
+        }
+        
+        .pop-in {
+            opacity: 0;
+            transform: scale(0.9);
+            animation: popIn 0.8s forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInRight {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes popIn {
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .floating-code {
+            position: absolute;
+            opacity: 0.05;
+            z-index: 0;
+            font-family: 'Fira Code', monospace;
+            color: #333;
+            user-select: none;
+            pointer-events: none;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        /* ==== Responsive Nav + Terminal Width ==== */
+        
+        .hamburger {
+            display: none;
+        }
+        
+        .terminal-container {
+            width: 100%;
+            max-width: 480px; /* Increased from 'md' (448px) */
+            word-wrap: break-word;
+        }
+        
+        #typing-text {
+            padding-right: 10px; /* Add some padding to ensure cursor fits */
+        }
+        
+        @media (max-width: 768px) {
+            .split-layout {
+                flex-direction: column;
+            }
+            
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            
+            .left-panel {
+                padding: 2rem 1.5rem;
+            }
+            
+            .right-panel {
+                padding: 3rem 1.5rem;
+            }
+            
+            .main-heading {
+                font-size: 2.5rem;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                padding: 1rem;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                z-index: 50;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .terminal-container {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+  <!-- === Split Layout === -->
+    <div class="split-layout flex h-screen">
+        
+      <!-- === Left Panel (Sidebar) === -->
+        <div class="left-panel w-2/5 bg-white p-12 flex flex-col justify-between sticky top-0 h-screen" style="z-index: 10;">
+            
+          <!-- Branding & Nav -->
+            <div>
+                <h1 class="main-heading text-5xl font-bold mb-2 slide-in-right" style="animation-delay: 0.2s;">Sarvesh Ghotekar</h1>
+                <p class="text-lg text-gray-600 mb-12 slide-in-right" style="animation-delay: 0.4s;">Code. Craft. Curiosity.</p>
+                
+                <!-- Desktop Navigation -->
+                <nav class="nav-menu">
+                    <ul class="space-y-6">
+                        <li class="slide-in-right" style="animation-delay: 0.6s;">
+                            <a href="about.html" class="nav-link text-lg font-medium">About</a>
+                        </li>
+                        <li class="slide-in-right" style="animation-delay: 0.8s;">
+                            <a href="project.html" class="nav-link text-lg font-medium">Projects</a>
+                        </li>
+                        <li class="slide-in-right" style="animation-delay: 1s;">
+                            <a href="contact.html" class="nav-link text-lg font-medium">Contact</a>
+                        </li>
+                        <li class="slide-in-right" style="animation-delay: 1.2s;">
+                            <a href="resume.html" class="nav-link text-lg font-medium">Resume</a>
+                        </li>
+                        <li class="slide-in-right" style="animation-delay: 1.2s;">
+                            <a href="certificates.html" class="nav-link text-lg font-medium">Certificates</a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <!-- Hamburger for Mobile -->
+                <button class="hamburger">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Social Icons and Footer -->
+            <div>
+                <div class="flex space-x-5 mb-6 fade-in" style="animation-delay: 1.4s;">
+                    <a href="https://github.com/sarvessh05" target="_blank" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/sarveshghotekar" target="_blank" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:ghotekarsarvesh@gmail.com" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/sarvessh.05/" target="_blank" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-sm text-gray-500 fade-in" style="animation-delay: 1.6s;">Designed & coded by Sarvesh</p>
+            </div>
+        </div>
+        
+        <!-- === Right Panel (Main Content) === -->
+        <div class="right-panel w-3/5 relative flex flex-col items-center justify-center p-16 overflow-hidden" style="background-color: var(--bg-right);">
+            
+          <!-- Background Code Snippets -->
+            <div class="floating-code text-4xl top-10 left-10">
+                const developer = {<br>
+                &nbsp;&nbsp;name: "Sarvesh",<br>
+                &nbsp;&nbsp;skills: ["Web", "Design", "Code", "Test", "Game"]<br>
+                };
+            </div>
+            
+            <div class="floating-code text-3xl bottom-20 right-10">
+                function createImpact() {<br>
+                &nbsp;&nbsp;return innovation + passion;<br>
+                }
+            </div>
+            
+            <!-- Profile Photo -->
+            <div class="mb-12 z-10 pop-in" style="animation-delay: 0.4s;">
+                <div class="profile-photo w-64 h-64 rounded-full overflow-hidden shadow-lg">
+                    <img src="assets/sarvesh.jpg" alt="Sarvesh" class="w-full h-full object-cover" style="object-position: center top;" />
+                        <path d="M12 14.25c3.73 0 6.75-3.02 6.75-6.75S15.73.75 12 .75 5.25 3.77 5.25 7.5 8.27 14.25 12 14.25zm0-12c2.9 0 5.25 2.35 5.25 5.25S14.9 12.75 12 12.75 6.75 10.4 6.75 7.5 9.1 2.25 12 2.25zM12 16.5c-5.52 0-10 4.48-10 10 0 .41.34.75.75.75s.75-.34.75-.75c0-4.69 3.81-8.5 8.5-8.5s8.5 3.81 8.5 8.5c0 .41.34.75.75.75s.75-.34.75-.75c0-5.52-4.48-10-10-10z"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- Sound Toggle -->
+            <div class="absolute bottom-6 right-6 flex items-center z-10 fade-in" style="animation-delay: 1.8s;">
+                <span class="text-sm text-gray-600 mr-2">Sound</span>
+                <label class="switch">
+                    <input type="checkbox" id="sound-toggle">
+                    <span class="slider w-10 h-5 bg-gray-300 rounded-full relative cursor-pointer">
+                        <span class="slider-button absolute w-4 h-4 bg-white rounded-full top-0.5 left-0.5 transition-all duration-300"></span>
+                    </span>
+                </label>
+            </div>
+
+            <!-- Terminal Typing Box -->
+            <div class="terminal-container code-font bg-gray-900 p-6 rounded-lg shadow-lg z-10 fade-in" style="animation-delay: 1s;">
+                <div class="flex items-center mb-4">
+                    <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="text-green-400">
+                    <div id="typing-text" class="whitespace-pre"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <!-- === Secret Poem Modal === -->
+  <div id="nautanki-poem" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 hidden">
+    <div class="bg-white p-8 rounded-xl max-w-md text-center relative shadow-2xl animate-fade-in">
+      <h2 class="text-2xl font-bold mb-4 text-orange-600">For My Nautanki 💛</h2>
+      <p class="text-gray-700 leading-relaxed">
+        I met a real life princess,<br>
+        Used all my flirting skills just to impress.<br>
+        No choice, I had to confess,<br>
+        My feelings for her, I couldn’t suppress.<br><br>
+
+        She brings my life so much meaning,<br>
+        Her smile alone—absolutely redeeming.<br>
+        Her laugh, my favourite melody,<br>
+        Her presence—pure serenity.<br><br>
+
+        With her soft cheeks and perfect curl,<br>
+        She's my forever, my whole world.<br>
+        Her hand in mine? I can walk miles,<br>
+        All I need is her laugh, her voice, her style.<br><br>
+
+        I hate the distance, hate the space,<br>
+        But close my eyes—I see her face.<br>
+        My Nautanki, my sweetheart, my rose,<br>
+        You’re the poem my heart always chose. 💛
+      </p>
+      <button onclick="document.getElementById('nautanki-poem').classList.add('hidden')" class="mt-6 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">Close</button>
+    </div>
+  </div>
+
+    <!-- === JavaScript Functionality === -->
+
+    <script>
+        // Typing Animation
+        const typingText = document.getElementById('typing-text');
+        const lines = [
+            "> Hello, I'm Sarvesh",
+            "> I build with logic and polish with purpose."
+        ];
+
+        let lineIndex = 0;
+        let charIndex = 0;
+        let typingDelay = 100;
+        let newLineDelay = 1000;
+        let soundEnabled = true;
+
+        // Load the audio file
+        const typeSound = new Audio("/assets/typewriter_keypress.mp3");
+        typeSound.volume = 0.15; // Softer volume for longer file
+
+        function type() {
+            const currentLine = lines[lineIndex];
+
+            if (charIndex < currentLine.length) {
+                typingText.innerHTML = currentLine.substring(0, charIndex + 1) + '<span class="typing-cursor"></span>';
+                charIndex++;
+
+                setTimeout(type, typingDelay);
+            } else {
+                setTimeout(() => {
+                    if (lineIndex < lines.length - 1) {
+                        typingText.innerHTML = currentLine + '<br>';
+                        lineIndex++;
+                        charIndex = 0;
+                        setTimeout(type, typingDelay);
+                    } else {
+                        typingText.innerHTML = lines.join('<br>') + '<span class="typing-cursor"></span>';
+
+                        // Stop the sound once typing ends
+                        if (soundEnabled) {
+                            typeSound.pause();
+                            typeSound.currentTime = 0;
+                        }
+                    }
+                }, newLineDelay);
+            }
+        }
+
+        // Start typing & sound after small delay
+        setTimeout(() => {
+            if (soundEnabled) {
+                typeSound.currentTime = 0;
+                typeSound.play().catch(() => {});
+            }
+            type();
+        }, 1500);
+
+        // Sound toggle UI logic
+        const soundToggle = document.getElementById('sound-toggle');
+        const sliderButton = document.querySelector('.slider-button');
+
+        soundToggle.checked = soundEnabled;
+        sliderButton.style.transform = soundEnabled ? 'translateX(20px)' : 'translateX(0)';
+        sliderButton.style.backgroundColor = soundEnabled ? '#E67E22' : '#fff';
+
+        soundToggle.addEventListener('change', function () {
+            soundEnabled = this.checked;
+
+            if (this.checked) {
+                sliderButton.style.transform = 'translateX(20px)';
+                sliderButton.style.backgroundColor = '#E67E22';
+
+                // Play sound only if typing is still happening
+                if (charIndex < lines[lines.length - 1].length) {
+                    typeSound.currentTime = 0;
+                    typeSound.play().catch(() => {});
+                }
+            } else {
+                sliderButton.style.transform = 'translateX(0)';
+                sliderButton.style.backgroundColor = '#fff';
+                typeSound.pause();
+                typeSound.currentTime = 0;
+            }
+        });
+        
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+        
+        // Easter egg
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+                console.log("Welcome, inspector. Debug this page if you're curious 😎");
+            }
+        });
+        
+        // Mouse parallax effect for profile photo
+        const rightPanel = document.querySelector('.right-panel');
+        const profilePhoto = document.querySelector('.profile-photo');
+        
+        rightPanel.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            profilePhoto.style.transform = `translate(${xAxis}px, ${yAxis}px) scale(1.03)`;
+        });
+        
+        rightPanel.addEventListener('mouseleave', () => {
+            profilePhoto.style.transform = 'translate(0px, 0px) scale(1)';
+        });
+
+      // Secret Word Trigger
+    let keyBuffer = '';
+    const secretWord = 'nautanki';
+
+    document.addEventListener('keydown', (e) => {
+      keyBuffer += e.key.toLowerCase();
+      if (keyBuffer.length > secretWord.length)
+        keyBuffer = keyBuffer.slice(-secretWord.length);
+
+      if (keyBuffer === secretWord) {
+        document.getElementById('nautanki-poem').classList.remove('hidden');
+      }
+    });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9524215157a6c19c',t:'MTc1MDM0NzY4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
