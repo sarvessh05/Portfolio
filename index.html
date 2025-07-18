@@ -11,14 +11,16 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#000000">
-
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Google Fonts -->
-    
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&family=Noto+Sans+Devanagari:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&family=Noto+Sans+Devanagari:wght@600&display=swap" rel="stylesheet">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
-        
+
         /* ==== Root Variables ==== */
 
         :root {
@@ -27,23 +29,23 @@
         }
 
         /* ==== Base Styles ==== */
-        
+
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
-        
+
         .code-font {
             font-family: 'Fira Code', monospace;
         }
 
         /* ==== Navigation Styling ==== */
-        
+
         .nav-link {
             position: relative;
             transition: color 0.3s ease;
         }
-        
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -54,21 +56,21 @@
             background-color: var(--accent-color);
             transition: width 0.3s ease;
         }
-        
+
         .nav-link:hover {
             color: var(--accent-color);
         }
-        
+
         .nav-link:hover::after {
             width: 100%;
         }
 
         /* ==== Interactive Elements ==== */
-        
+
         .social-icon {
             transition: all 0.3s ease;
         }
-        
+
         .social-icon:hover {
             transform: translateY(-3px);
             color: var(--accent-color);
@@ -275,14 +277,19 @@
                         </svg>
                     </a>
                 </div>
-                <p class="text-sm text-gray-500 fade-in" style="animation-delay: 1.6s;">Designed & coded by Sarvesh</p>
+                <p class="text-sm text-gray-500 fade-in" style="animation-delay: 1.6s;">
+                    Designed & coded by 
+                    <span id="marathi-name" style="font-family:'Baloo 2','Noto Sans Devanagari',sans-serif; font-size:1.1em; color:#E67E22; letter-spacing:1px;">
+                        सर्वेश
+                    </span>
+                </p>
             </div>
         </div>
         
         <!-- === Right Panel (Main Content) === -->
         <div class="right-panel w-3/5 relative flex flex-col items-center justify-center p-16 overflow-hidden" style="background-color: var(--bg-right);">
             
-          <!-- Background Code Snippets -->
+            <!-- Background Code Snippets -->
             <div class="floating-code text-4xl top-10 left-10">
                 const developer = {<br>
                 &nbsp;&nbsp;name: "Sarvesh",<br>
